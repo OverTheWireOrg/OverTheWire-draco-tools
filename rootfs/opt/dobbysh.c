@@ -7,7 +7,7 @@ int main() {
     unsigned long v;
     char *p;
     
-    printf("Welcome to Dobby's net-enabled debugger!\n"); fflush(0);
+    printf("Welcome to Dobby's net-enabled 32-bit debugger!\n"); fflush(0);
     printf("Commands are \"r <address>\", \"w <address> <value>\", \"s\" and \"q\"\n"); fflush(0);
     while(1) {
         fgets(buf, sizeof(buf), stdin);

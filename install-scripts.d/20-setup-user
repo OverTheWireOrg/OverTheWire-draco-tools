@@ -1,0 +1,17 @@
+#!/bin/bash
+
+(cat <<EOF
+#!/bin/sh
+
+echo 0 > /proc/sys/kernel/randomize_va_space
+
+exit 0
+EOF
+) > /etc/rc.local
+
+adduser --disabled-password --gecos "" dobby
+
+gcc -m32 -o /usr/bin/dobbysh /opt/dobbysh.c
+
+mkdir -p /etc/inetd.d
+echo "31337 stream tcp nowait dobby /usr/sbin/tcpd /usr/bin/dobbysh" > /etc/inetd.d/dobby.inetd.conf

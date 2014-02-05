@@ -29,6 +29,7 @@ find $tmpdir -type f -exec ./scripts/apply_template_inplace.py "$conffile" {} \;
 
 here=$(pwd)
 cd $tmpdir
+
 case $vmtype in
     libvirt)
 	./scripts/create-libvirt-vm.sh
@@ -36,6 +37,7 @@ case $vmtype in
     ova)
 	./scripts/make-ova-image.sh
 	;;
+esac
 
 cd $here
 

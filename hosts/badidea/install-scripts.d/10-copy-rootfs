@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+cd $datadir$/rootfs && find . | cpio -pmd / && cd ..
+

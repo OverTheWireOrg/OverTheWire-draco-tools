@@ -3,7 +3,7 @@
 NAME=badidea
 target=/data/OTW/
 
-bootstrap=$(readlink -f __bootstrap-from-makevm.sh)
+bootstrap=$(readlink -f scripts/__bootstrap-from-makevm.sh)
 
 virsh destroy $NAME
 virsh undefine $NAME

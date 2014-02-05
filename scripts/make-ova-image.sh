@@ -1,12 +1,12 @@
 #!/bin/bash
 
-currdir=$(pwd)
+bootstrap=$(readlink -f scripts/__bootstrap-from-makevm.sh)
 NAME=badidea
 
 sudo ubuntu-vm-builder vmserver precise --hostname $NAME --dest $NAME --user otw --pass otw \
 	--arch i386 --mem 256 --ip 172.27.100.10 --mask 255.255.255.248  --net 172.27.100.8 \
 	--bcast 172.27.100.15 --gw 172.27.100.9 \
-	--components main,universe,restricted --execscript=$currdir/__bootstrap-from-makevm.sh
+	--components main,universe,restricted --execscript="$bootstrap"
 
 rm -f $NAME/*.vmx ${NAME}.ova
 IMAGE="$NAME/*.vmdk"

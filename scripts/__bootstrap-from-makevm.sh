@@ -9,5 +9,5 @@ mkdir -p $rootfs/root/badidea
 cp -r . $rootfs/root/badidea
 
 # chroot into rootfs and run install scripts
-chroot $rootfs bash -c "cd /root/badidea && ./__install.sh"
+chroot $rootfs bash -c "cd /root/badidea && ./scripts/__install.sh"
 

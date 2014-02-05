@@ -8,11 +8,6 @@ iface lo inet loopback
 # The primary network interface
 auto eth0
 iface eth0 inet static
-        address 172.27.100.10
-        netmask 255.255.255.248 
-        network 172.27.100.8
-        broadcast 172.27.100.15
-        gateway 172.27.100.9 
-        # dns-* options are implemented by the resolvconf package, if installed
-        dns-nameservers 172.27.100.9
-        dns-search labs.overthewire.org
+        address $ip$
+        netmask $netmask$
+        gateway $gateway$

@@ -1,11 +1,10 @@
 #!/bin/bash
 
 bootstrap=$(readlink -f scripts/__bootstrap-from-makevm.sh)
-NAME=badidea
+NAME=$name$
 
-sudo ubuntu-vm-builder vmserver precise --hostname $NAME --dest $NAME --user otw --pass otw \
-	--arch i386 --mem 256 --ip 172.27.100.10 --mask 255.255.255.248  --net 172.27.100.8 \
-	--bcast 172.27.100.15 --gw 172.27.100.9 \
+sudo ubuntu-vm-builder vmserver precise --hostname $NAME --dest $NAME --user $user$ --pass $password$ \
+	--arch i386 --mem 256 
 	--components main,universe,restricted --execscript="$bootstrap"
 
 rm -f $NAME/*.vmx ${NAME}.ova
@@ -17,8 +16,8 @@ VBoxManage storagectl ${NAME} --name "SATA Controller" --add sata --controller I
 VBoxManage storageattach ${NAME} --storagectl "SATA Controller" --type hdd --port 0 --device 0 --medium ${IMAGE}
 VBoxManage modifyvm ${NAME} --nic1 nat
 
-VBoxManage export ${NAME} --manifest -o ${NAME}.ova
+VBoxManage export ${NAME} --manifest -o $targetdir$/${NAME}.ova
 VBoxManage unregistervm ${NAME} --delete
 
-echo "Your appliance is ready at ${NAME}.ova"
+echo "Your appliance is ready at $targetdir$/${NAME}.ova"
 

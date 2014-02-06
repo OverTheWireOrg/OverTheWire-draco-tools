@@ -1,0 +1,4 @@
+ext	eth0	detect
+int	eth1	detect
+vpn	tun0
+

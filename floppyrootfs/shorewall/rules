@@ -1,0 +1,7 @@
+# allow router to access everything, for debugging
+ACCEPT:info	fw	ext,int,vpn
+
+# allow full access between inner network and VPN
+ACCEPT:info	vpn	int
+ACCEPT:info	int	vpn
+

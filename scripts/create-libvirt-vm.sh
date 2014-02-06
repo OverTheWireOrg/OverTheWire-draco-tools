@@ -19,7 +19,7 @@ chown -R root.root $target/$NAME
 if $isrouter$;
 then
     # add second network card
-    virsh attach-interface $NAME bridge br-vlan24 --persistent
+    virsh attach-interface $NAME bridge $bridge2$ --persistent
 
     # add floppy drive
     # This is ugly as fuck, I blame libvirt

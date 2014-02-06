@@ -16,4 +16,15 @@ ubuntu-vm-builder kvm precise --dest $target/$NAME --arch i386 --hostname $NAME 
 
 chown -R root.root $target/$NAME
 
+if $isrouter$;
+then
+    # add second network card
+    virsh attach-interface $NAME bridge br-vlan24 --persistent
+
+    # add floppy drive
+    # This is ugly as fuck, I blame libvirt
+    floppyimg="$floppyimage$"
+    EDITOR='sed -i "s:</devices>:<disk type=\"file\" device=\"floppy\"><source file=\"'$floppyimg'\"/><target dev=\"fda\"/></disk>\n&:"' virsh edit $NAME
+fi
+
 virsh start $NAME

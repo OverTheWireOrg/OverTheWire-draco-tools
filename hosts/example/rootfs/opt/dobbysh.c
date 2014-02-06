@@ -58,7 +58,7 @@ int main() {
 	    }
 	    
 	} else {
-		printf("Invalid command. Use \"r <address>\" or \"w <address> <value>\"\n"); fflush(0);
+		printf("Invalid command. Try 'h' for help\n"); fflush(0);
 	}
     }
 

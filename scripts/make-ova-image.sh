@@ -37,6 +37,7 @@ VBoxManage export ${NAME} --manifest -o $targetdir$/${NAME}.ova
 VBoxManage unregistervm ${NAME} --delete
 
 if $isrouter$;
+then
     # Hacky fix: remove the floppy from the OVA boot order
     echo "Fixing bootorder in generated OVA"
     mv $targetdir$/${NAME}.ova $targetdir$/${NAME}.tar

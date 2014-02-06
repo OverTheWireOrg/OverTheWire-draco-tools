@@ -1,0 +1,11 @@
+# /etc/fstab: static file system information.
+# <file system>                                 <mount point>   <type>  <options>       <dump>  <pass>
+proc                                            /proc           proc    defaults        0       0
+/dev/sda1                                       /               ext4    defaults        0       0
+/dev/sda2                                       swap            swap    defaults        0       0
+
+/dev/fd0	/media/floppy	ext2	defaults	0 0
+none	/etc/network	overlayfs	noauto,lowerdir=/etc/network,upperdir=/media/floppy/network	0 0
+none	/etc/openvpn	overlayfs	noauto,lowerdir=/etc/openvpn,upperdir=/media/floppy/openvpn	0 0
+none	/etc/shorewall	overlayfs	noauto,lowerdir=/etc/shorewall,upperdir=/media/floppy/shorewall	0 0
+none	/etc/registryUpdater	overlayfs	noauto,lowerdir=/etc/registryUpdater,upperdir=/media/floppy/registryUpdater	0 0

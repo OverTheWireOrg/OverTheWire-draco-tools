@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -rf /etc/openvpn /etc/shorewall /etc/default/openvpn /etc/default/shorewall
+

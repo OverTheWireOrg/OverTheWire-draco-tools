@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+apt-get -y install vim shorewall openvpn bash-completion man tcpdump
+

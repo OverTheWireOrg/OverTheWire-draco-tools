@@ -1,0 +1,80 @@
+#!/usr/bin/python
+
+import sys, os, subprocess, httplib, urllib, socket, time, json
+
+registryLocation = "172.27.0.1"
+
+def updatePage(ip, body): #{{{
+    params = urllib.urlencode({'body': body})
+    headers = {
+	"Content-type": "application/x-www-form-urlencoded",
+	"Accept": "text/plain"
+    }
+
+    conn = httplib.HTTPConnection(registryLocation)
+    conn.request("POST", "/edit/"+ip, params, headers)
+    response = conn.getresponse()
+
+    ret = response.status
+    conn.close()
+    return ret
+#}}}
+def testPing(ip): #{{{
+    DEVNULL = open(os.devnull, 'wb')
+    res = subprocess.call(['ping', '-t', '3', '-c', '1', ip], stdout=DEVNULL, stderr=DEVNULL)
+    return res == 0
+#}}}
+def testTCP(ip, port): #{{{
+    ret = False
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(3)
+        s.connect((ip, port))
+	ret = True
+    except:
+	pass
+    s.close()
+    return ret
+#}}}
+def performTest(ip, t): #{{{
+    if t == "ping":
+    	return testPing(ip)
+
+    parts = t.split("/")
+    if len(parts) != 2:
+        return False
+
+    proto = parts[0]
+    port = int(parts[1])
+
+    if proto == "tcp":
+    	return testTCP(ip, port)
+
+    return False
+#}}}    	
+
+if len(sys.argv) < 2:
+    print "Usage: %s <config files>" % sys.argv[0]
+    sys.exit(1)
+
+for f in sys.argv[1:]:
+    print "* Reading configuration file %s" % f
+    data = json.loads(open(f).read())
+
+    for ip, rec in data.items():
+    	alive = True
+	print " + Verifying host %s availability" % ip
+	for test in rec["tests"]:
+	    if alive:
+		print "  + Performing test %s on IP %s" % (test, ip)
+		if not performTest(ip, test):
+		    alive = False
+	    else:
+		print "  - Skipping test %s on IP %s" % (test, ip)
+	    	
+	if alive:
+	    print " + Host %s is alive, updating registry page" % ip
+	    updatePage(ip, rec["description"])
+	else:
+	    print " - Host %s is not alive, not updating registry page" % ip
+

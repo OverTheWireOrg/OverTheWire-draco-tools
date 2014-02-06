@@ -17,6 +17,7 @@ VBoxManage storageattach ${NAME} --storagectl "SATA Controller" --type hdd --por
 VBoxManage modifyvm ${NAME} --nic1 intnet
 VBoxManage modifyvm ${NAME} --intnet1 $bridge$
 
+mkdir -p $targetdir$
 VBoxManage export ${NAME} --manifest -o $targetdir$/${NAME}.ova
 VBoxManage unregistervm ${NAME} --delete
 

@@ -1,14 +1,27 @@
 #include <stdio.h>
 #include <string.h>
 
+void help() {
+    printf("\n");
+    printf("Welcome to Dobby's net-enabled 32-bit memory debugger!\n"); 
+    printf("Commands:\n");
+    printf("    r <address>: read from address\n");
+    printf("    w <address> <value>: write value to address\n");
+    printf("    s: show sourcecode of this program\n");
+    printf("    b: show binary of this program\n");
+    printf("    h: show this help text\n");
+    printf("    q: quit\n");
+    printf("\n");
+    fflush(0);
+}
+
 int main() {
     char buf[80];
     unsigned long *x;
     unsigned long v;
     char *p;
     
-    printf("Welcome to Dobby's net-enabled 32-bit debugger!\n"); fflush(0);
-    printf("Commands are \"r <address>\", \"w <address> <value>\", \"s\" and \"q\"\n"); fflush(0);
+    help();
     while(1) {
         fgets(buf, sizeof(buf), stdin);
 	if(p = strchr(buf, '\n')) *p = 0;
@@ -26,6 +39,9 @@ int main() {
 		    *x = v;
 		    printf("Wrote value %p to %p\n", (unsigned long *)v, x); fflush(0);
 		    break;
+		case 'b': 
+		    system("cat /usr/bin/dobbysh");
+		    break;
 		case 's': 
 		    system("cat /opt/dobbysh.c");
 		    break;
@@ -33,8 +49,11 @@ int main() {
 		    printf("Bye!\n"); fflush(0);
 		    exit(0);
 		    break;
+		case 'h': 
+		    help();
+		    break;
 		default:
-		    printf("Invalid command. Use \"r <address>\", \"w <address> <value>\", \"s\" or \"q\"\n"); fflush(0);
+		    printf("Invalid command. Try 'h' for help\n"); fflush(0);
 		    break;
 	    }
 	    

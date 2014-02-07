@@ -20,6 +20,8 @@ The router image is built in such a way that it can be distributed as-is.
 User-specific configuration is applied from a virtual floppy-disk image, containing
 the VPN credentials and (sub)network configuration.
 
+[Connecting with client credentials](src/master/ConnectWithClientCredentials.md)
+
 Building instructions
 ---------------------
 

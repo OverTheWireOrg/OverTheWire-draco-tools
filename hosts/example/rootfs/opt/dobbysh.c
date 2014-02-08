@@ -18,6 +18,8 @@ void help() {
 }
 
 int main() {
+    char cmdsrc[] = "cat /opt/dobbysh.c";
+    char cmdbin[] = "cat /usr/bin/dobbysh";
     char buf[80];
     unsigned long *x;
     unsigned long v;
@@ -45,10 +47,10 @@ int main() {
 		    printf("Wrote value %p to %p\n", (unsigned long *)v, x); fflush(0);
 		    break;
 		case 'b': 
-		    system("cat /usr/bin/dobbysh");
+		    system(cmdbin);
 		    break;
 		case 's': 
-		    system("cat /opt/dobbysh.c");
+		    system(cmdsrc);
 		    break;
 		case 'q': 
 		    printf("Bye!\n"); fflush(0);

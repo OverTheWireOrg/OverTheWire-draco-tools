@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <signal.h>
+#include <stdlib.h>
 
 void help() {
     printf("\n");
@@ -20,6 +22,9 @@ int main() {
     unsigned long *x;
     unsigned long v;
     char *p;
+
+    signal(SIGALRM, exit);
+    alarm(600);
     
     help();
     while(1) {

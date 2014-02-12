@@ -28,3 +28,5 @@ Building instructions
 To build a VM image, create a configfile in config/ and run "sudo ./build-vm.sh config/myconfig.ini".
 There is support to build router images and vulnerable hosts in both OVA and libvirt format.
 
+Download an OVA version of the router image here: [http://images.overthewire.org/dracorouter.ova](http://images.overthewire.org/dracorouter.ova)
+

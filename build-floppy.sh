@@ -28,12 +28,11 @@ mv interfaces.example network/interfaces
 # copy key and certificates to openvpn and warzone config
 cp $key openvpn/$username.key
 chmod go= openvpn/$username.key
+cp $key warzone/registry.key
+chmod go= warzone/registry.key
 mv $username.crt $username.ca.crt $username.conf openvpn/
-mv $username.registry.crt $username.registry.ca.crt warzone/
-
-# make PKCS12 for the registry, empty password
-openssl pkcs12 -passout pass: -export -in warzone/$username.registry.crt -inkey openvpn/$username.key -out warzone/registry.p12
-chmod go= warzone/registry.p12
+mv $username.registry.ca.crt warzone/registry.ca.crt
+mv $username.registry.crt warzone/registry.crt
 
 cd $here
 

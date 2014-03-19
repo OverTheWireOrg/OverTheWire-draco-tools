@@ -11,7 +11,7 @@ def updatePage(ip, body): #{{{
 	"Accept": "text/plain"
     }
 
-    conn = httplib.HTTPConnection(registryLocation)
+    conn = httplib.HTTPSConnection(registryLocation, key_file="/etc/warzone/registry.key", cert_file="/etc/warzone/registry.crt")
     conn.request("POST", "/edit/"+ip, params, headers)
     response = conn.getresponse()
 

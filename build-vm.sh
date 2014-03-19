@@ -1,6 +1,7 @@
 #!/bin/bash
 
 conffile=$1
+distdir=$(dirname $(readlink -f $0))
 
 if [ ! -e "$conffile" ];
 then
@@ -13,14 +14,14 @@ if [ "$UID" -ne 0 ]
   then echo "Please run as root"
   exit
 fi
+conffile=$(readlink -f $conffile)
 
 tmpdir=$(mktemp -d /tmp/XXXXXXXXXXXXXXXXXXXXX)
+cd $distdir
 rsync -rv --exclude=.git . $tmpdir
 echo '$vmtype$' > $tmpdir/vmtype
-
 find $tmpdir -type f -exec ./scripts/apply_template_inplace.py "$conffile" {} \;
 
-here=$(pwd)
 cd $tmpdir
 
 vmtype=$(cat vmtype)
@@ -33,7 +34,7 @@ case $vmtype in
 	;;
 esac
 
-cd $here
+cd $distdir
 
 rm -rf $tmpdir
 

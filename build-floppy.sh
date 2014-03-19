@@ -1,21 +1,37 @@
 #!/bin/bash
 
 inf=$(readlink -f $1)
-outf=${2:-$inf.img}
+key=$(readlink -f $2)
+outf=${3:-$inf.img}
 
-if [ ! -e "$inf" ];
+if [ ! -e "$inf" -o ! -e "$key" ];
 then
-    echo "No arguments or file $inf doesn't exist"
+    echo "No arguments or file $inf or $key doesn't exist"
+    echo "Usage: $0 <tarball> <SSL key> [<optional outfile>]"
     exit 0
 fi
 
 here=$(pwd)
 tmpdir=$(mktemp -d)
+mkdir -p network openvpn warzone
 cp -r floppyrootfs/* $tmpdir/
 cd $tmpdir
 tar -xf $inf
+
+# extract username
+username=$(basename *.registry.crt .registry.crt)
+
+# network config
 mv interfaces.example network/interfaces
-mv *.crt *.csr *.key *.conf openvpn/
+
+# copy key and certificates to openvpn and warzone config
+cp $key openvpn/$username.key
+mv $username.crt $username.ca.crt $username.conf openvpn/
+mv $username.registry.crt $username.registry.ca.crt warzone/
+
+# make PKCS12 for the registry, empty password
+openssl pkcs12 -passout pass: -export -in warzone/$username.registry.crt -inkey openvpn/$username.key -out warzone/registry.p12
+
 cd $here
 
 sudo ./scripts/linux_dir_to_floppy_img.sh $tmpdir $outf

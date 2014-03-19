@@ -9,3 +9,4 @@ none	/etc/network	overlayfs	noauto,lowerdir=/etc/network,upperdir=/media/floppy/
 none	/etc/openvpn	overlayfs	noauto,lowerdir=/etc/openvpn,upperdir=/media/floppy/openvpn	0 0
 none	/etc/shorewall	overlayfs	noauto,lowerdir=/etc/shorewall,upperdir=/media/floppy/shorewall	0 0
 none	/etc/registryUpdater	overlayfs	noauto,lowerdir=/etc/registryUpdater,upperdir=/media/floppy/registryUpdater	0 0
+none	/etc/warzone	overlayfs	noauto,lowerdir=/etc/warzone,upperdir=/media/floppy/warzone	0 0

@@ -4,6 +4,7 @@ mount /etc/network
 mount /etc/openvpn
 mount /etc/shorewall
 mount /etc/registryUpdater
+mount /etc/warzone
 
 /etc/init.d/shorewall restart
 /etc/init.d/networking restart

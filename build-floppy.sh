@@ -2,7 +2,7 @@
 
 if [ ! -e "$1" -o ! -e "$2" ];
 then
-    echo "No arguments or file $1 or $2 doesn't exist"
+    echo "No arguments or listed files don't exist"
     echo "Usage: $0 <tarball> <SSL key> [<optional outfile>]"
     exit 0
 fi

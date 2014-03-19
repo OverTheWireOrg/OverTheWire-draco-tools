@@ -1,15 +1,15 @@
 #!/bin/bash
 
-inf=$(readlink -f $1)
-key=$(readlink -f $2)
-outf=${3:-$inf.img}
-
-if [ ! -e "$inf" -o ! -e "$key" ];
+if [ ! -e "$1" -o ! -e "$2" ];
 then
-    echo "No arguments or file $inf or $key doesn't exist"
+    echo "No arguments or file $1 or $2 doesn't exist"
     echo "Usage: $0 <tarball> <SSL key> [<optional outfile>]"
     exit 0
 fi
+
+inf=$(readlink -f $1)
+key=$(readlink -f $2)
+outf=${3:-$inf.img}
 
 here=$(pwd)
 tmpdir=$(mktemp -d)

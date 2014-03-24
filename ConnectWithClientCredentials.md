@@ -10,7 +10,7 @@ In this guide, we'll assume your username is ```anna```.
 All authentication and authorization is based on SSL inside the warzone.
 Use the script ```make-user-csr.sh``` to generate a private key and accompanying [Certificate Signing Request (CSR)](http://en.wikipedia.org/wiki/Certificate_signing_request).
 ```
-./make-user-csr.sh anna.key
+./make-user-csr.sh anna
 ```
 Upload (or otherwise transfer) this CSR (e.g. anna.csr), together with a chosen username (e.g. anna), to be warzone
 registration server. There, your account will be registered.

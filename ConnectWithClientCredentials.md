@@ -1,6 +1,9 @@
 How to connect as a client
 ==========================
 
+In this guide, we'll assume your username is ```anna```.
+
+
 1. Create a public/private key pair
 -----------------------------------
 

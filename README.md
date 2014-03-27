@@ -1,9 +1,13 @@
 Draco Tools
 ===========
 
+![OverTheWire Warzone network overview](warzone-overview.png)
+
 OverTheWire's warzone network code-named "Draco" allows registered users to connect
 to an isolated network full of vulnerable hosts and services to practice penetration
 testing.
+
+
 
 Once connected, a subnet with a fixed IP-range is routed towards connected clients 
 with "server" accounts. This IP-range can then be used to add vulnerable hosts to the

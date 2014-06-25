@@ -1,13 +1,19 @@
 #!/usr/bin/python
 
-import sys, os, subprocess, httplib, urllib, socket, time, json
+import sys, os, subprocess, httplib, urllib, socket, time, json, random, string
 
 registryLocation = "172.27.0.1"
 
+def randomToken(): #{{{
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
+#}}}
+
 def updatePage(ip, body): #{{{
-    params = urllib.urlencode({'body': body})
+    token = randomToken()
+    params = urllib.urlencode({'body': body, 'CSRFToken': token})
     headers = {
 	"Content-type": "application/x-www-form-urlencoded",
+	"X-CSRF-Token": token,
 	"Accept": "text/plain"
     }
 

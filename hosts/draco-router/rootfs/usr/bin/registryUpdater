@@ -10,15 +10,15 @@ def randomToken(): #{{{
 
 def updatePage(ip, body): #{{{
     token = randomToken()
-    params = urllib.urlencode({'body': body, 'CSRFToken': token})
+    params = json.dumps({'body': body, 'CSRFToken': token})
     headers = {
-	"Content-type": "application/x-www-form-urlencoded",
+	"Content-type": "application/json",
 	"X-CSRF-Token": token,
 	"Accept": "text/plain"
     }
 
     conn = httplib.HTTPSConnection(registryLocation, key_file="/etc/warzone/registry.key", cert_file="/etc/warzone/registry.crt")
-    conn.request("POST", "/edit/"+ip, params, headers)
+    conn.request("POST", "/s/edit/"+ip, params, headers)
     response = conn.getresponse()
 
     ret = response.status

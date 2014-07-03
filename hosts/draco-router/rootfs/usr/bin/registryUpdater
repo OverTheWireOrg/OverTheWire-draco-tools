@@ -8,9 +8,9 @@ def randomToken(): #{{{
     return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
 #}}}
 
-def updatePage(ip, body): #{{{
+def updateAllPages(hosts): #{{{
     token = randomToken()
-    params = json.dumps({'body': body, 'CSRFToken': token})
+    params = json.dumps({'data': hosts, 'CSRFToken': token})
     headers = {
 	"Content-type": "application/json",
 	"X-CSRF-Token": token,
@@ -18,7 +18,7 @@ def updatePage(ip, body): #{{{
     }
 
     conn = httplib.HTTPSConnection(registryLocation, key_file="/etc/warzone/registry.key", cert_file="/etc/warzone/registry.crt")
-    conn.request("POST", "/s/edit/"+ip, params, headers)
+    conn.request("POST", "/s/multiedit", params, headers)
     response = conn.getresponse()
 
     ret = response.status
@@ -66,6 +66,7 @@ if len(sys.argv) < 2:
 for f in sys.argv[1:]:
     print "* Reading configuration file %s" % f
     data = json.loads(open(f).read())
+    aliveHosts = {}
 
     for ip, rec in data.items():
     	alive = True
@@ -79,8 +80,10 @@ for f in sys.argv[1:]:
 		print "  - Skipping test %s on IP %s" % (test, ip)
 	    	
 	if alive:
-	    print " + Host %s is alive, updating registry page" % ip
-	    updatePage(ip, rec["description"])
+	    print " + Host %s is alive, queueing registry page update" % ip
+	    aliveHosts[ip] = {}
+	    aliveHosts[ip]["body"] = rec["description"]
 	else:
 	    print " - Host %s is not alive, not updating registry page" % ip
+    updateAllPages(aliveHosts)
 

@@ -23,6 +23,7 @@ def updateAllPages(hosts): #{{{
 
     ret = response.status
     conn.close()
+    print " + Updated %d pages" % len(hosts.keys())
     return ret
 #}}}
 def testPing(ip): #{{{
@@ -85,5 +86,7 @@ for f in sys.argv[1:]:
 	    aliveHosts[ip]["body"] = rec["description"]
 	else:
 	    print " - Host %s is not alive, not updating registry page" % ip
-    updateAllPages(aliveHosts)
+
+    if len(aliveHosts.keys()) > 0:
+	updateAllPages(aliveHosts)
 

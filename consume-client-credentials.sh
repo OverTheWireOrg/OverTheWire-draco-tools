@@ -7,14 +7,22 @@ then
     exit 0
 fi
 
-distdir=$(dirname $(readlink -f $0))
-inf=$(readlink -f $1)
-key=$(readlink -f $2)
+function myreadlink {
+    python -c "import os,sys ; print os.path.realpath(sys.argv[1])" "$1"
+}
+
+function mymktemp {
+    python -c "import tempfile ; print tempfile.mkdtemp()"
+}
+
+distdir=$(dirname $(myreadlink $0))
+inf=$(myreadlink $1)
+key=$(myreadlink $2)
 outf=$inf.img
 
 here=$(pwd)
-tmpdir=$(mktemp -d)
-cd $tmpdir
+tmpdir=$(mymktemp)
+pushd $tmpdir &> /dev/null
 tar -xf $inf
 
 # extract username
@@ -45,7 +53,7 @@ tar -czf $here/$username-openvpn.tar.gz $username.ca.crt $username.conf $usernam
 echo "[DEBUG] You will be prompted for a password to protect the PKCS12 file."
 openssl pkcs12 -export -out $here/$username-registry.p12 -inkey $username.key -in $username.registry.crt
 
-cd $here
+popd &> /dev/null
 rm -rf $tmpdir
 
 echo

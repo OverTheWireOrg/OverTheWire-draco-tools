@@ -37,15 +37,6 @@ Connect to the warzone and try to ping the registry server at 172.27.0.1:
 ping 172.27.0.1
 ```
 
-Next, connect to https://172.27.0.1/whoami
+Next, connect to https://172.27.0.1/
 This website should prompt your browser to send the correct SSL certificate, identifying you
-as a registered user. You will see a message saying e.g. 
-```
-We know you as client-anna, connecting from 172.27.66.66
-```
-
-if your SSL credentials have been used correctly, or 
-```
-You are unknown to us, connecting from 172.27.66.66
-```
-otherwise.
+as a registered user. If the website knows your username, it will display it in the top left.

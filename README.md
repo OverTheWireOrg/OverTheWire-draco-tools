@@ -2,7 +2,7 @@ Draco Tools
 ===========
 
 This repository hosts end-user tools to connect to the OverTheWire warzone.
-More information about this warzone can be found on [](https://draco.overthewire.org).
+More information about this warzone can be found on [https://draco.overthewire.org](https://draco.overthewire.org).
 
 
 Connecting vulnerable machines to the warzone with a "router" account is not

@@ -24,8 +24,6 @@ The router image is built in such a way that it can be distributed as-is.
 User-specific configuration is applied from a virtual floppy-disk image, containing
 the VPN credentials and (sub)network configuration.
 
-[Connecting with client credentials](ConnectWithClientCredentials.md)
-
 Building instructions
 ---------------------
 
@@ -33,4 +31,4 @@ To build a VM image, create a configfile in config/ and run "sudo ./build-vm.sh 
 There is support to build router images and vulnerable hosts in both OVA and libvirt format.
 
 Download an OVA version of the router image here: [http://images.overthewire.org/dracorouter.ova](http://images.overthewire.org/dracorouter.ova)
-
+This image was built using ```sudo ./build-vm.sh config/dracorouter-ova.ini```

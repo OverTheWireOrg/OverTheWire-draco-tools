@@ -1,20 +1,14 @@
 Draco Tools
 ===========
 
-![OverTheWire Warzone network overview](warzone-overview.png)
-
-OverTheWire's warzone network code-named "Draco" allows registered users to connect
-to an isolated network full of vulnerable hosts and services to practice penetration
-testing.
+This repository hosts end-user tools to connect to the OverTheWire warzone.
+More information about this warzone can be found on [](https://draco.overthewire.org).
 
 
-
-Once connected, a subnet with a fixed IP-range is routed towards connected clients 
-with "server" accounts. This IP-range can then be used to add vulnerable hosts to the
-warzone.
-
-This repository hosts scripts to build a virtual VPN router image that can be used to
-easily connect to the Draco network.
+Connecting vulnerable machines to the warzone with a "router" account is not
+trivial. To get started easily, this repository contains tools to build a virtual
+virtual VPN router image that can be used to easily connect vulnerable hosts to
+the warzone.
 
 The router offers:
 - separation of the VPN credentials away from any hosted vulnerable images.

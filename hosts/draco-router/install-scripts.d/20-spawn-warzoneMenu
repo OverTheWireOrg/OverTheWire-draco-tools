@@ -1,0 +1,15 @@
+#!/bin/bash
+
+cat >> /home/otw/.bashrc <<EOF2
+/usr/bin/warzoneMenu.sh
+
+clear
+cat <<EOF
+
++----------------------------------------+
+| Logout to get back to the warzone menu |
++----------------------------------------+
+
+EOF
+
+EOF2

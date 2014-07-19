@@ -74,11 +74,6 @@ function testConnection() { #{{{
     enterToContinue
 }
 #}}}
-function showInfo() {
-    echo "FIXME: info"
-    enterToContinue
-}
-
 function createConfig() { #{{{
     if dialog --ascii-lines --no-shadow --yesno "About to recreate the configuration floppy...\n\
 \n\
@@ -104,7 +99,6 @@ function main() {
     while true;
     do
 	dialog --nook --nocancel --ascii-lines --no-shadow --menu "Draco router" 20 60 20 \
-		i "Show status information" \
 		t "Test Connection" \
 		c "Recreate floppy" \
 		s "Exit and drop into a shell" \
@@ -114,9 +108,6 @@ function main() {
 	case $char in
 	    s)
 		    exit 0
-		    ;;
-	    i)
-		    showInfo
 		    ;;
 	    t)
 		    testConnection

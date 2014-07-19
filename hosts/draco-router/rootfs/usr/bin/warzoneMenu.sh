@@ -7,6 +7,7 @@ function enterToContinue() {
 }
 
 function testConnection() { #{{{
+    clear
     echo "Running network tests..."
     echo "+ Checking whether 8.8.8.8 is reachable"
     if ping -c 3 8.8.8.8;
@@ -84,12 +85,20 @@ THIS WILL OVERWRITE YOUR CONFIGURATION. ARE YOU SURE?\n\
 THIS WILL OVERWRITE YOUR CONFIGURATION. ARE YOU SURE?\n\
     " 20 60;
     then
-	# /usr/bin/createFloppy.sh
-	echo "Done."
-	enterToContinue
-    	echo "YES"
-    else
-    	echo "NO"
+	if sudo /usr/bin/createFloppy.sh;
+	then
+	    enterToContinue
+	    if dialog --ascii-lines --no-shadow --yesno "To complete this step, you have to reboot\n\
+	\n\
+	Reboot now?\n\
+	\n\
+	    " 20 60;
+	    then
+		    sudo reboot
+	    fi
+	else
+	    enterToContinue
+	fi
     fi
 }
 #}}}
@@ -100,7 +109,7 @@ function main() {
     do
 	dialog --nook --nocancel --ascii-lines --no-shadow --menu "Draco router" 20 60 20 \
 		t "Test Connection" \
-		c "Recreate floppy" \
+		c "(Re)create floppy" \
 		s "Exit and drop into a shell" \
 		2> $cmdFile
 

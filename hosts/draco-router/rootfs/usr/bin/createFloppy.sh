@@ -46,6 +46,9 @@ pushd $tmpdir
 	mv $username.registry.ca.crt warzone/registry.ca.crt
 	mv $username.registry.crt warzone/registry.crt
 
+	# make a copy of the vulnhost descriptions
+	cp /etc/registryUpdater/* registryUpdater/
+
 	tar -czf /root/newfloppy.tgz .
 popd
 

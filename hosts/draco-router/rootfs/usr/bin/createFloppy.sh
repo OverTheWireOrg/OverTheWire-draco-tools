@@ -49,6 +49,11 @@ pushd $tmpdir
 	# make a copy of the vulnhost descriptions
 	cp /etc/registryUpdater/* registryUpdater/
 
+	# make a copy of the firewall state too
+	mkdir -p shorewall/rules.d/ && cp /etc/shorewall/rules.d/*.rules shorewall/rules.d/
+	mkdir -p shorewall/masq.d/ && cp /etc/shorewall/masq.d/*.masq shorewall/masq.d/
+	mkdir -p warzone/state && cp /etc/warzone/state/* warzone/state/
+
 	tar -czf /root/newfloppy.tgz .
 popd
 

@@ -1,3 +1,6 @@
+# import host-specific rules
+SHELL cat /etc/shorewall/rules.d/*.rules
+
 # allow router to access everything, for debugging
 ACCEPT:info	fw	ext,int,vpn
 

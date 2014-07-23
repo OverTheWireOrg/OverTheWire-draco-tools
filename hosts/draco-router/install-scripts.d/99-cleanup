@@ -1,6 +1,4 @@
 #!/bin/bash
 
-localepurge
-apt-get --purge remove localepurge
 apt-get clean
 

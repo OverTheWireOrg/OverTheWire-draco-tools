@@ -15,6 +15,16 @@ function enterToContinue() {
 function testConnection() { #{{{
     clear
     echo "Running network tests..."
+    echo "+ Checking whether 172.27.0.1 can be pinged"
+    if ping -c 3 172.27.0.1;
+    then
+        echo "Looks ok"
+	enterToContinue
+	return
+    else
+        echo "Failed: Could not ping 172.27.0.1"
+    fi
+
     echo "+ Checking whether 8.8.8.8 is reachable"
     if ping -c 3 8.8.8.8;
     then

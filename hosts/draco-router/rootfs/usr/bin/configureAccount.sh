@@ -72,7 +72,8 @@ function keyInFloppyRoot() { #{{{
 }
 #}}}
 function keyInOpenVPNDir() { #{{{
-    [ -e "$vpndir/*.key" ]
+    x=$(echo $vpndir/*.key)
+    [ -e "$x" ]
 }
 #}}}
 function downloadAndInstallConfig() { #{{{

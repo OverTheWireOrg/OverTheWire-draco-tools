@@ -261,4 +261,5 @@ function main() { #{{{
 }
 #}}}
 
+sudo /usr/bin/configureAccount.sh
 main

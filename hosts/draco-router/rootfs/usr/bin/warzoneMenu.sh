@@ -201,14 +201,13 @@ function configFirewall() { #{{{
 function createConfig() { #{{{
     if dialog --ascii-lines --no-shadow --yesno "About to recreate the configuration floppy...\n\
 \n\
-assuming you placed your private key named <username>.key on the floppy\n\
-\n\
 THIS WILL OVERWRITE YOUR CONFIGURATION. ARE YOU SURE?\n\
 THIS WILL OVERWRITE YOUR CONFIGURATION. ARE YOU SURE?\n\
 THIS WILL OVERWRITE YOUR CONFIGURATION. ARE YOU SURE?\n\
     " 20 60;
     then
-	if sudo /usr/bin/createFloppyTarball.sh;
+    	sudo cp /etc/openvpn/*.key /media/floppy/
+	if sudo /usr/bin/createFloppyTarball.sh /root/ /media/floppy/*.key;
 	then
 	    enterToContinue
 	    if dialog --ascii-lines --no-shadow --yesno "To complete this step, you have to reboot\n\

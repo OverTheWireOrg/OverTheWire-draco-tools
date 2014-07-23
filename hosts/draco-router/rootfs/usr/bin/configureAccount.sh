@@ -164,8 +164,8 @@ Would you like to create an account now?\n\
 if ! $(floppyMounted); then mountFloppy; fi
 # if still not mounted, prompt to format and mount
 if ! $(floppyMounted); then promptFormat; fi
-# if still not mounted, exit
-if ! $(floppyMounted); then msgFormatFailed; exit 1; fi
+# while not mounted, keep trying to reformat
+while ! $(floppyMounted); do msgFormatFailed; done
 
 # if there is a floppy with a key in the root, prompt for recreate
 if $(keyInFloppyRoot); 

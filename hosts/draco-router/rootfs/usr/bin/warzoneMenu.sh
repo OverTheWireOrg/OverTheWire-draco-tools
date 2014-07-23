@@ -208,7 +208,7 @@ THIS WILL OVERWRITE YOUR CONFIGURATION. ARE YOU SURE?\n\
 THIS WILL OVERWRITE YOUR CONFIGURATION. ARE YOU SURE?\n\
     " 20 60;
     then
-	if sudo /usr/bin/createFloppy.sh;
+	if sudo /usr/bin/createFloppyTarball.sh;
 	then
 	    enterToContinue
 	    if dialog --ascii-lines --no-shadow --yesno "To complete this step, you have to reboot\n\

@@ -1,19 +1,17 @@
 #!/bin/bash
 
+set -e
 shopt -s nullglob
 
 distdir=/etc/warzone-draco-floppyrootfs
+roothome=$1
+keyfile=$2
 
-# Mount the floppy first
-mount /dev/fd0  &> /dev/null || true
-mountPoint=$(mount -l | awk '$1 == "/dev/fd0" { print $3 }')
-
-# Check whether there is a keyfile
-keyfile=$(echo $mountPoint/*.key | cut -d' ' -f 1)
+mkdir -p $roothome
 
 if [ -z "$keyfile" ];
 then
-	echo "No keyfile on floppy"
+	echo "No keyfile"
 	exit 0
 fi
 echo "Keyfile is at $keyfile"
@@ -25,11 +23,28 @@ tarball="/tmp/$username.tar.gz"
 echo "Username is $username, tarball at $tarballurl and $tarball"
 
 # Download tarball
-wget --no-check-certificate -O "$tarball" "$tarballurl"
+function isValidTarball() {
+    if [ ! -e "$1" ]; 
+    then
+    	false;
+    else
+        ! grep -q "Tarball not available" "$1"
+    fi
+}
+
+while ! $(isValidTarball "$tarball");
+do
+    wget --no-check-certificate -O "$tarball" "$tarballurl"
+    if ! $(isValidTarball "$tarball");
+    then
+        echo "Tarball is not available yet. Retrying in 10 seconds..."
+	sleep 10
+    fi
+done
 
 # create a workdir and unpack the tarball
 tmpdir=$(mktemp -d)
-cp -r $distdir/* $tmpdir/
+cp -r $distdir/* $tmpdir || true
 pushd $tmpdir
 	mkdir -p network openvpn warzone
 	tar -xf $tarball
@@ -47,14 +62,14 @@ pushd $tmpdir
 	mv $username.registry.crt warzone/registry.crt
 
 	# make a copy of the vulnhost descriptions
-	cp /etc/registryUpdater/* registryUpdater/
+	cp /etc/registryUpdater/* registryUpdater/ || true
 
 	# make a copy of the firewall state too
-	mkdir -p shorewall/rules.d/ && cp /etc/shorewall/rules.d/*.rules shorewall/rules.d/
-	mkdir -p shorewall/masq.d/ && cp /etc/shorewall/masq.d/*.masq shorewall/masq.d/
-	mkdir -p warzone/state && cp /etc/warzone/state/* warzone/state/
+	mkdir -p shorewall/rules.d/ && cp /etc/shorewall/rules.d/*.rules shorewall/rules.d/ || true
+	mkdir -p shorewall/masq.d/ && cp /etc/shorewall/masq.d/*.masq shorewall/masq.d/	|| true
+	mkdir -p warzone/state && cp /etc/warzone/state/* warzone/state/ || true
 
-	tar -czf /root/newfloppy.tgz .
+	tar -czf $roothome/newfloppy.tgz .
 popd
 
 rm -rf $tmpdir $tarball

@@ -165,7 +165,7 @@ if ! $(floppyMounted); then mountFloppy; fi
 # if still not mounted, prompt to format and mount
 if ! $(floppyMounted); then promptFormat; fi
 # while not mounted, keep trying to reformat
-while ! $(floppyMounted); do msgFormatFailed; done
+while ! $(floppyMounted); do msgFormatFailed; promptFormat; done
 
 # if there is a floppy with a key in the root, prompt for recreate
 if $(keyInFloppyRoot); 

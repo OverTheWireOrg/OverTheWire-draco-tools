@@ -61,16 +61,18 @@ pushd $tmpdir
 	mv $username.registry.ca.crt warzone/registry.ca.crt
 	mv $username.registry.crt warzone/registry.crt
 
+	shopt -u nullglob
 	# make a copy of the vulnhost descriptions
-	cp /etc/registryUpdater/* registryUpdater/ || true
+	cp /etc/registryUpdater/*.conf registryUpdater/ || true
 	# remove any default configs, we don't need to backup those
 	(grep -l REMOVEMEPLZ registryUpdater/*.conf | xargs rm -f) || true
 	# create a default config if there is none
-	x=$(ls "*.conf" || true)
-	if [ -z "$x" ];
+	if [ ! -e registryUpdater/*.conf ];
 	then
+	    echo "No registryUpdater config detected, creating default.conf"
 	    /usr/bin/makeDefaultRegistryUpdaterConfig.py network/interfaces > registryUpdater/default.conf
 	fi
+	shopt -s nullglob
 
 	# make a copy of the firewall state too
 	mkdir -p shorewall/rules.d/ && cp /etc/shorewall/rules.d/*.rules shorewall/rules.d/ || true

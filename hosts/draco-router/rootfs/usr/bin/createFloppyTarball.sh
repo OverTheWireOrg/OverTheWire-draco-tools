@@ -63,6 +63,13 @@ pushd $tmpdir
 
 	# make a copy of the vulnhost descriptions
 	cp /etc/registryUpdater/* registryUpdater/ || true
+	# remove any default configs, we don't need to backup those
+	(grep -l REMOVEMEPLZ registryUpdater/*.conf | xargs rm -f) || true
+	# create a default config if there is none
+	if [ ! -e registryUpdater/*.conf ];
+	then
+	    /usr/bin/makeDefaultRegistryUpdaterConfig.py network/interfaces > registryUpdater/default.conf
+	fi
 
 	# make a copy of the firewall state too
 	mkdir -p shorewall/rules.d/ && cp /etc/shorewall/rules.d/*.rules shorewall/rules.d/ || true

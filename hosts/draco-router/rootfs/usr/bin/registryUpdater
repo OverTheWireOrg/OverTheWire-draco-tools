@@ -84,6 +84,8 @@ for f in sys.argv[1:]:
 	    print " + Host %s is alive, queueing registry page update" % ip
 	    aliveHosts[ip] = {}
 	    aliveHosts[ip]["body"] = rec["description"]
+	    if "title" in rec:
+		aliveHosts[ip]["title"] = rec["title"] 
 	else:
 	    print " - Host %s is not alive, not updating registry page" % ip
 

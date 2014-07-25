@@ -66,7 +66,8 @@ pushd $tmpdir
 	# remove any default configs, we don't need to backup those
 	(grep -l REMOVEMEPLZ registryUpdater/*.conf | xargs rm -f) || true
 	# create a default config if there is none
-	if [ ! -e registryUpdater/*.conf ];
+	x=$(ls "*.conf" || true)
+	if [ -z "$x" ];
 	then
 	    /usr/bin/makeDefaultRegistryUpdaterConfig.py network/interfaces > registryUpdater/default.conf
 	fi

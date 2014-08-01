@@ -99,7 +99,7 @@ function getHostList() { #{{{
 #}}}
 function getHostStatus() { #{{{
     ip=$1
-    for state in Warzone Internet Offline;
+    for state in Warzone Internet Both Offline;
     do
         if [ -e $baseDir/state/$ip.$state ];
 	then
@@ -141,16 +141,21 @@ function queryHostStatus() { #{{{
 	s2="On"
     fi
 
-    if [ "$s" == "Offline" ];
+    if [ "$s" == "Both" ];
     then
 	s3="On"
     fi
 
+    if [ "$s" == "Offline" ];
+    then
+	s4="On"
+    fi
+
     mycmdFile=$(mktemp)
-    dialog --radiolist "Select network status for $ip" 20 60 20 Warzone "" $s1 Internet "" $s2 Offline "" $s3 2> $mycmdFile
+    dialog --radiolist "Select network status for $ip" 20 60 20 Warzone "" $s1 Internet "" $s2 Both "" $s3 Offline "" $s4 2> $mycmdFile
     cmd=$(cat $mycmdFile)
     case $cmd in
-	Warzone|Internet|Offline)
+	Warzone|Internet|Both|Offline)
 		setHostStatus "$ip" "$cmd"
 		;;
 	*)
@@ -169,8 +174,14 @@ function updateFirewall() { #{{{
 	# fill in template
 	if [ "$state" != "" ];
 	then
-	    cat $firewallRulesd/$state.tmpl | sed "s:___IP___:$host:g" | sudo tee $firewallRulesd/$host.rules
-	    cat $firewallMasqd/$state.tmpl | sed "s:___IP___:$host:g" | sudo tee $firewallMasqd/$host.masq
+	    if [ -e $firewallRulesd/$state.tmpl ];
+	    then
+		cat $firewallRulesd/$state.tmpl | sed "s:___IP___:$host:g" | sudo tee $firewallRulesd/$host.rules
+	    fi
+	    if [ -e $firewallMasqd/$state.tmpl ];
+	    then
+		cat $firewallMasqd/$state.tmpl | sed "s:___IP___:$host:g" | sudo tee $firewallMasqd/$host.masq
+	    fi
 	fi
     done
 

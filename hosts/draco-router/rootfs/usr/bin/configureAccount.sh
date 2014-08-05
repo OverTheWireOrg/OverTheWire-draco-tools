@@ -18,6 +18,8 @@ then
     thisdir=.
 fi
 
+dialog=dialog
+
 function isValidUsername() { #{{{
     x=$(echo "$1" | tr -d "a-zA-Z0-9_-")
     l=$(echo "$1" | wc -c)
@@ -43,7 +45,7 @@ function mountFloppy() { #{{{
 }
 #}}}
 function promptFormat() { #{{{
-    if dialog --ascii-lines --no-shadow --yesno "Format floppy?\n\
+    if $dialog --ascii-lines --no-shadow --yesno "Format floppy?\n\
 \n\
 ATTENTION!!!!!\n\
 \n\
@@ -77,7 +79,7 @@ function keyInOpenVPNDir() { #{{{
 }
 #}}}
 function downloadAndInstallConfig() { #{{{
-    if dialog --ascii-lines --no-shadow --yesno "Download and install configuration to floppy...\n\
+    if $dialog --ascii-lines --no-shadow --yesno "Download and install configuration to floppy...\n\
 \n\
 The private key found in the root of your floppy will be used to download your
 configuration and update the configuration floppy.
@@ -89,7 +91,7 @@ THIS WILL FORMAT YOUR FLOPPY. ARE YOU SURE?\n\
     then
         if $thisdir/createFloppyTarball.sh $roothome $floppy/*.key;
         then
-            if dialog --ascii-lines --no-shadow --yesno "To complete this step, you have to reboot\n\
+            if $dialog --ascii-lines --no-shadow --yesno "To complete this step, you have to reboot\n\
         \n\
         Reboot now?\n\
         \n\
@@ -113,7 +115,7 @@ THIS WILL FORMAT YOUR FLOPPY. ARE YOU SURE?\n\
 }
 #}}}
 function promptRegister() { #{{{
-    if dialog --ascii-lines --no-shadow --yesno "Create account\n\
+    if $dialog --ascii-lines --no-shadow --yesno "Create account\n\
 \n\
 You either have no account, or have no setup the configuration floppy properly.\n\
 \n\
@@ -127,8 +129,10 @@ Would you like to create an account now?\n\
 	done=false
 	while ! $done;
 	do
-	    dialog --inputbox "Choose an account name, 32 char max, [a-zA-Z0-9_-]+" 20 60 "$currname" 2> $nameFile
-	    currname=$(cat $nameFile)
+	    if [ "$dialog" = "dialog" ]; then
+		dialog --inputbox "Choose an account name, 32 char max, [a-zA-Z0-9_-]+" 20 60 "$currname" 2> $nameFile
+		currname=$(cat $nameFile)
+	    fi
 	    
 	    echo "name = [$currname]"
 	    if [ "$currname" == "" ];
@@ -148,7 +152,7 @@ Would you like to create an account now?\n\
 		else
 		    mv $floppy/user.csr "$floppy/$currname.csr"
 		    mv $floppy/user.key.tmp "$floppy/$currname.key"
-		    dialog --msgbox "Registration of username "$currname" successful" 20 60
+		    $dialog --msgbox "Registration of username "$currname" successful" 20 60
 	    	    downloadAndInstallConfig
 		fi
 	    fi
@@ -159,6 +163,11 @@ Would you like to create an account now?\n\
     fi
 }
 #}}}
+function autoRegister() { #{{{
+    x=$(echo $floppy/autoreg.txt)
+    [ -e "$x" ]
+}
+#}}}
 
 # if floppy isn't mounted, try to mount.
 if ! $(floppyMounted); then mountFloppy; fi
@@ -166,6 +175,12 @@ if ! $(floppyMounted); then mountFloppy; fi
 if ! $(floppyMounted); then promptFormat; fi
 # while not mounted, keep trying to reformat
 while ! $(floppyMounted); do msgFormatFailed; promptFormat; done
+
+# if $floppy/autoreg.txt exists, we are in automode, don't ask questions and just register
+if $(autoRegister); 
+then 
+    dialog=true
+fi
 
 # if there is a floppy with a key in the root, prompt for recreate
 if $(keyInFloppyRoot); 

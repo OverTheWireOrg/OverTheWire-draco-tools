@@ -13,15 +13,15 @@ iprange = parts[5]
 netinfo = IPNetwork(iprange)
 first = netinfo[2]
 last = netinfo[-2]
-gw = netinfo[-1]
+gw = netinfo[1]
 
 print """
 default-lease-time 600;
 max-lease-time 7200;
 
 subnet %s netmask %s {
-   range 172.27.128.18 172.27.128.22;
-   option routers 172.27.128.17;
+   range %s %s;
+   option routers %s;
    option domain-name-servers 8.8.8.8;
 }
 """ % (netinfo.ip, netinfo.netmask, first, last, gw)

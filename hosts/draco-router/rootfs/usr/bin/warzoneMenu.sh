@@ -124,6 +124,74 @@ function setHostStatus() { #{{{
     fi
 }
 #}}}
+function getDHCPStatus() { #{{{
+    for state in On Off;
+    do
+        if [ -e $baseDir/state/DHCP.$state ];
+	then
+	    echo $state
+	    return
+	fi
+    done
+    echo Off
+}
+#}}}
+function setDHCPStatus() { #{{{
+    state=$1
+    for s in On Off;
+    do
+        sudo rm -f $baseDir/state/DHCP.$s
+    done
+
+    case $state in
+        On)
+		echo "INTERFACES=\"eth1\"" | sudo tee /etc/default/isc-dhcp-server
+		sudo cp /etc/shorewall/tmpl-interfaces.dhcp /etc/shorewall/interfaces
+		;;
+        Off)
+		sudo rm /etc/default/isc-dhcp-server
+		sudo cp /etc/shorewall/tmpl-interfaces.nodhcp /etc/shorewall/interfaces
+		
+		;;
+	*)
+		return
+		;;
+    esac
+
+    sudo service shorewall restart
+    sudo service isc-dhcp-server restart
+
+    sudo touch $baseDir/state/DHCP.$state
+}
+#}}}
+function configDHCP() { #{{{
+    s=$(getDHCPStatus)
+    s1="Off"
+    s2="Off"
+
+    if [ "$s" == "On" ];
+    then
+	s1="On"
+    fi
+
+    if [ "$s" == "Off" ];
+    then
+	s2="On"
+    fi
+
+    mycmdFile=$(mktemp)
+    dialog --radiolist "Configure DHCP server" 20 60 20 On "" $s1 Off "" $s2 2> $mycmdFile
+    cmd=$(cat $mycmdFile)
+    case $cmd in
+	On|Off)
+		if [ "$s" != "$cmd" ]; then setDHCPStatus "$cmd"; fi
+		;;
+	*)
+		return
+		;;
+    esac
+}
+#}}}
 function queryHostStatus() { #{{{
     ip=$1
     s=$(getHostStatus $ip)
@@ -253,6 +321,7 @@ function main() { #{{{
 	dialog --nook --nocancel --ascii-lines --no-shadow --menu "Draco router" 20 60 20 \
 		t "Test Connection" \
 		n "Place vulnhost in maintenance network" \
+		d "Setup DHCP server" \
 		c "(Re)create floppy" \
 		s "Exit and drop into a shell" \
 		2> $cmdFile
@@ -267,6 +336,9 @@ function main() { #{{{
 		    ;;
 	    n)
 		    configFirewall
+		    ;;
+	    d)
+		    configDHCP
 		    ;;
 	    c)
 		    createConfig

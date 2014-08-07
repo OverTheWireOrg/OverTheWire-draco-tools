@@ -37,7 +37,16 @@ do
     wget --no-check-certificate -O "$tarball" "$tarballurl"
     if ! $(isValidTarball "$tarball");
     then
-        echo "Tarball is not available yet. Retrying in 10 seconds..."
+    	echo
+    	echo "#################################"
+    	echo "#"
+	echo -n "#   "; date
+        echo "#   Tarball is not available yet."
+	echo "#   This most likely means you raccount was not approved yet."
+	echo "#   Retrying in 10 seconds..."
+    	echo "#"
+    	echo "#################################"
+    	echo
 	sleep 10
     fi
 done

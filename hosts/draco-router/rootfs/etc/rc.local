@@ -7,7 +7,9 @@ mount /etc/openvpn
 mount /etc/shorewall
 mount /etc/registryUpdater
 mount /etc/warzone
+mount /etc/dhcp
 
 /etc/init.d/shorewall restart
 /etc/init.d/networking restart
 /etc/init.d/openvpn restart
+/etc/init.d/isc-dhcp-server restart

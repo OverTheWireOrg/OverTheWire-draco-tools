@@ -79,6 +79,10 @@ pushd $tmpdir
 	mkdir -p shorewall/masq.d/ && cp /etc/shorewall/masq.d/*.masq shorewall/masq.d/	|| true
 	mkdir -p warzone/state && cp /etc/warzone/state/* warzone/state/ || true
 
+	# generate dhcpd config
+	mkdir -p dhcp
+	/usr/bin/makeDHCPDConfig.py network/interfaces > dhcp/dhcpd.conf
+
 	tar -czf $roothome/newfloppy.tgz .
 popd
 

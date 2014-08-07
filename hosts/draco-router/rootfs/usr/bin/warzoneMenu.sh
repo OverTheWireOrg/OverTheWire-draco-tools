@@ -130,6 +130,7 @@ function queryHostStatus() { #{{{
     s1="Off"
     s2="Off"
     s3="Off"
+    s4="Off"
 
     if [ "$s" == "Warzone" ];
     then

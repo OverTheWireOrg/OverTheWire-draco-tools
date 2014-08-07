@@ -1,5 +1,5 @@
 #!/bin/bash
 
 
-apt-get -y install vim shorewall openvpn bash-completion man tcpdump wget dialog host python-netaddr openssl
+apt-get -y install vim shorewall openvpn bash-completion man tcpdump wget dialog host python-netaddr openssl isc-dhcp-server
 

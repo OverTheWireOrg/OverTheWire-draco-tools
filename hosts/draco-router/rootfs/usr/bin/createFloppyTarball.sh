@@ -42,7 +42,7 @@ do
     	echo "#"
 	echo -n "#   "; date
         echo "#   Tarball is not available yet."
-	echo "#   This most likely means you raccount was not approved yet."
+	echo "#   This most likely means your account was not approved yet."
 	echo "#   Retrying in 10 seconds..."
     	echo "#"
     	echo "#################################"

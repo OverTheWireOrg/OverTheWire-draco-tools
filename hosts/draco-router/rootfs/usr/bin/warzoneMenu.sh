@@ -354,5 +354,10 @@ function main() { #{{{
 }
 #}}}
 
+if [ "$(getDHCPStatus)" == "On" -a ! -e /etc/default/isc-dhcp-server ];
+then
+    setDHCPStatus "On"
+fi
+
 sudo /usr/bin/configureAccount.sh
 main
